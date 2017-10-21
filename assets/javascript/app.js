@@ -4,13 +4,15 @@ $(document).ready(function () {
 
     var timerInterval;
 
-    var clock = 5;
+    var clock = 121;
 
     var correctTotal = 0;
 
     var incorrectTotal = 0;
 
     var unanswerdTotal = 0;
+
+    var correctAnswerArray = ["q1b", "q2b", "q3d", "q4b", "q5c", "q6c", "q7a", "q8b", "q9c", "q10d"];
 
 
     $('#submitButton').click(function () {
@@ -64,146 +66,32 @@ $(document).ready(function () {
         $("#results").append($("<p id='correct'>Correct Answers:</p>"));
         $("#results").append($("<p id='incorrect'>Incorrect Answers:</p>"));
         $("#results").append($("<p id='unanswered'>Unanswered:</p>"));
-        isQuestion1();
-        isQuestion2();
-        isQuestion3();
-        isQuestion4();
-        isQuestion5();
-        isQuestion6();
-        isQuestion7();
-        isQuestion8();
-        isQuestion9();
-        isQuestion10();
 
-        //for (var i = 0; i < 10; i++) {
-         //   checkQuestion(i);
-        //}
+        // Loop through thorugh the array of correct answers and compare each position to the user's checked (or unchecked) answers
+        for (var i = 0; i < 10; i++) {
+            checkAnswer(i);
+        }
+        $("#correct").text("Correct Answers: " + correctTotal);
+        $("#incorrect").text("IncorrectAnswers: " + incorrectTotal);
+        $("#unanswered").text("Unanswered: " + unanswerdTotal);
     };
 
-
-
-    // Calculate the user's scores
-    function isQuestion1() {
-        var correctAnswer = document.getElementById("q1b");
+    // Calculate the user's score
+    function checkAnswer(q_idx) {
+        var correctAnswer = document.getElementById(correctAnswerArray[q_idx]);
         if (correctAnswer.checked === true) {
             correctTotal++;
-            $("#correct").text("Correct Answers: " + correctTotal);
         }
-        else if ($('input[name=q1]:checked').length > 0) {
+        // Input means input tags only aka the radio buttons
+        // name= means the radio button name (q1, q2..)
+        // :checked limits to the checked radio buttons
+        // .length is the total number of buttons checked within the name group
+        //    ($'input[name=q1]:checked').length > 0)
+        else if ($('input[name=q' + (q_idx + 1) + ']:checked').length > 0) {
             incorrectTotal++;
-            $("#incorrect").text("IncorrectAnswers: " + incorrectTotal);
         }
         else {
             unanswerdTotal++;
-            $("#unanswered").text("Unanswered: " + unanswerdTotal);
-        }
-    };
-
-    function isQuestion2() {
-        var correctAnswer = document.getElementById("q2b");
-        if (correctAnswer.checked === true) {
-            correctTotal++;
-            $("#correct").text("Correct Answers: " + correctTotal);
-        }
-        else {
-            incorrectTotal++;
-            $("#incorrect").text("IncorrectAnswers: " + incorrectTotal);
-        }
-    };
-
-    function isQuestion3() {
-        var correctAnswer = document.getElementById("q3d");
-        if (correctAnswer.checked === true) {
-            correctTotal++;
-            $("#correct").text("Correct Answers: " + correctTotal);
-        }
-        else {
-            incorrectTotal++;
-            $("#incorrect").text("IncorrectAnswers: " + incorrectTotal);
-        }
-    };
-
-    function isQuestion4() {
-        var correctAnswer = document.getElementById("q4b");
-        if (correctAnswer.checked === true) {
-            correctTotal++;
-            $("#correct").text("Correct Answers: " + correctTotal);
-        }
-        else {
-            incorrectTotal++;
-            $("#incorrect").text("IncorrectAnswers: " + incorrectTotal);
-        }
-    };
-
-    function isQuestion5() {
-        var correctAnswer = document.getElementById("q5c");
-        if (correctAnswer.checked === true) {
-            correctTotal++;
-            $("#correct").text("Correct Answers: " + correctTotal);
-        }
-        else {
-            incorrectTotal++;
-            $("#incorrect").text("IncorrectAnswers: " + incorrectTotal);
-        }
-    };
-
-    function isQuestion6() {
-        var correctAnswer = document.getElementById("q6c");
-        if (correctAnswer.checked === true) {
-            correctTotal++;
-            $("#correct").text("Correct Answers: " + correctTotal);
-        }
-        else {
-            incorrectTotal++;
-            $("#incorrect").text("IncorrectAnswers: " + incorrectTotal);
-        }
-    };
-
-    function isQuestion7() {
-        var correctAnswer = document.getElementById("q7a");
-        if (correctAnswer.checked === true) {
-            correctTotal++;
-            $("#correct").text("Correct Answers: " + correctTotal);
-        }
-        else {
-            incorrectTotal++;
-            $("#incorrect").text("IncorrectAnswers: " + incorrectTotal);
-        }
-    };
-
-    function isQuestion8() {
-        var correctAnswer = document.getElementById("q8b");
-        if (correctAnswer.checked === true) {
-            correctTotal++;
-            $("#correct").text("Correct Answers: " + correctTotal);
-        }
-        else {
-            incorrectTotal++;
-            $("#incorrect").text("IncorrectAnswers: " + incorrectTotal);
-        }
-    };
-
-    function isQuestion9() {
-        var correctAnswer = document.getElementById("q9c");
-        if (correctAnswer.checked === true) {
-            correctTotal++;
-            $("#correct").text("Correct Answers: " + correctTotal);
-        }
-        else {
-            incorrectTotal++;
-            $("#incorrect").text("IncorrectAnswers: " + incorrectTotal);
-        }
-    };
-
-    function isQuestion10() {
-        var correctAnswer = document.getElementById("q10d");
-        if (correctAnswer.checked === true) {
-            correctTotal++;
-            $("#correct").text("Correct Answers: " + correctTotal);
-        }
-        else {
-            incorrectTotal++;
-            $("#incorrect").text("IncorrectAnswers: " + incorrectTotal);
         }
     };
 
@@ -211,6 +99,5 @@ $(document).ready(function () {
     displayElements();
 
 });
-
 
 
