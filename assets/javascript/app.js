@@ -4,7 +4,7 @@ $(document).ready(function () {
 
     var timerInterval;
 
-    var clock = 120;
+    var clock = 5;
 
     var correctTotal = 0;
 
@@ -12,6 +12,10 @@ $(document).ready(function () {
 
     var unanswerdTotal = 0;
 
+
+    $('#submitButton').click(function () {
+        submitAnswers();
+    });
 
     //The CSS display property of .container is set to none to prevent the div from displaying for a split second after the HTML is parsed but before
     //the below line of jQuery kicks in to display the start game button  
@@ -35,48 +39,25 @@ $(document).ready(function () {
 
     // Starts the countdown
     function decrement() {
-        count();
         clock--;
-        $(".timer").text("Time Remaining: " + clock);
+        $(".timer").text("Time Remaining: " + timeConverter(clock));
         if (clock <= 0) {
-            clearInterval(timerInterval);
             // If the clock runs out the game ends any guesses entered by the user are submitted
             submitAnswers();
         }
-        // If the user clicks the All Done button their guesses are also submitted   
-        // $('#submitButton').click(submitAnswers());
-        // document.getElementById("submitButton").onclick = submitAnswers();
     };
 
-    function count() {
-        var currentTime = timerInterval;
-        var countTime = timeConverter(currentTime);
-        $("#timer").text("Time Remaining: " + countTime);
-    }
-
+    //  Takes the current date time in seconds and converts it to minutes and seconds (mm:ss).
     function timeConverter(t) {
-
-        //  Takes the current time in seconds and converts it to minutes and seconds (mm:ss).
-        var minutes = Math.floor(t / 60);
-        var seconds = t - (minutes * 60);
-
-        if (seconds < 10) {
-            seconds = "0" + seconds;
-        }
-
-        if (minutes === 0) {
-            minutes = "00";
-        }
-
-        else if (minutes < 10) {
-            minutes = "0" + minutes;
-        }
-
-        return minutes + ":" + seconds;
+        var d = new Date(t * 1000);
+        var e = d.toTimeString();
+        var f = e.substr(3, 5);
+        return f;
     }
 
     // Display the results
     function submitAnswers() {
+        clearInterval(timerInterval);
         $(".container").hide();
         $("body").append($("<div id='results'></div>"));
         $("#results").append($("<p id='allDone'>All Done!</p>"));
@@ -93,7 +74,13 @@ $(document).ready(function () {
         isQuestion8();
         isQuestion9();
         isQuestion10();
+
+        //for (var i = 0; i < 10; i++) {
+         //   checkQuestion(i);
+        //}
     };
+
+
 
     // Calculate the user's scores
     function isQuestion1() {
@@ -102,11 +89,14 @@ $(document).ready(function () {
             correctTotal++;
             $("#correct").text("Correct Answers: " + correctTotal);
         }
-        else if (correctAnswer.checked === false) {
+        else if ($('input[name=q1]:checked').length > 0) {
             incorrectTotal++;
             $("#incorrect").text("IncorrectAnswers: " + incorrectTotal);
         }
-        else { unanswerdTotal++ }
+        else {
+            unanswerdTotal++;
+            $("#unanswered").text("Unanswered: " + unanswerdTotal);
+        }
     };
 
     function isQuestion2() {
@@ -221,3 +211,6 @@ $(document).ready(function () {
     displayElements();
 
 });
+
+
+
